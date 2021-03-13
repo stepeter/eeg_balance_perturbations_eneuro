@@ -3,7 +3,9 @@
 This code was developed to replicates results from our [eNeuro publication](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6088363/) and is made to be used in conjunction with our public figshare dataset (link soon!). The hope is to make our public dataset easy to work with and to facilitate reproducibility of our work. If you do find this code and/or dataset useful, please cite our paper.
 
 ```
-Peterson, S. M., & Ferris, D. P. (2018). Differentiation in theta and beta electrocortical activity between visual and physical perturbations to walking and standing balance. ENeuro, 5(4). https://doi.org/10.1523/ENEURO.0207-18.2018
+Peterson, S. M., & Ferris, D. P. (2018). Differentiation in theta and beta electrocortical
+activity between visual and physical perturbations to walking and standing balance.
+ENeuro, 5(4). https://doi.org/10.1523/ENEURO.0207-18.2018
 ```
 
 
@@ -33,6 +35,6 @@ The second important difference is that the EEG data in our figshare dataset has
 
 **- Figure 6: Early/late pull force, peak EMG, and body sway:** plt_early_late_behavior.m
 
-**- Figure 7-10: EEG power spectra, event-related spectral perturbation plots (ERSPs), and ERSP onset timings:** plt_eeg_ersps.m (plots results for a single cluster)
+**- Figure 7-10: EEG power spectra, event-related spectral perturbations (ERSPs), and ERSP onset timings:** plt_eeg_ersps.m (plots results for a single cluster)
 
 **- Figure 11: Neck EMG power spectra and ERSPs:** plt_neck_emg_ersps.m
