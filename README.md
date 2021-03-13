@@ -25,6 +25,8 @@ The second important difference is that the EEG data in our figshare dataset has
 
 ### Specific scripts for replicating eNeuro figures
 
+All scripts are located in the *plot_fxns* directory. Examples of the final plots for each script can be found in the *plt_figs* directory.
+
 **- Figure 2: Clustered EEG dipole locations:** plt_cluster_dipole_locs.m
 
 **- Figure 3: Event-related body position:** plt_mocap_event_related.m
