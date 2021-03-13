@@ -15,7 +15,7 @@ Our dataset includes synchronized 128-channel high-density electroencephalograph
 
 ## Reproducing our eNeuro results
 
-The code included in the *plot_fxns* folder will recreate Figs 2-11 of our eNeuro results. Below are the specific scripts used to replicate the results of each figure in the paper.
+The code included in the *plot_fxns* folder will recreate Figs 2-11 of our eNeuro results. Below are the specific scripts used to replicate the results of each figure in the paper. Each script will recreate a figure from the paper directly from the figshare dataset without needing to save intermediate files (unless *eeg_denoise.m* is used; see the second caveat below).
 
 ### Caveats
 
