@@ -27,16 +27,16 @@ The second important difference is that the EEG data in our figshare dataset has
 
 All scripts are located in the *plot_fxns* directory. Examples of the final plots for each script can be found in the *plt_figs* directory.
 
-**- Figure 2: Clustered EEG dipole locations:** plt_cluster_dipole_locs.m
+- Figure 2: Clustered EEG dipole locations: **plt_cluster_dipole_locs.m**
 
-**- Figure 3: Event-related body position:** plt_mocap_event_related.m
+- Figure 3: Event-related body position: **plt_mocap_event_related.m**
 
-**- Figure 4: Average body sway for each condition:** plt_marker_sd.m
+- Figure 4: Average body sway for each condition: **plt_marker_sd.m**
 
-**- Figure 5: Event-related lower leg EMG:** plt_emg_event_related.m
+- Figure 5: Event-related lower leg EMG: **plt_emg_event_related.m**
 
-**- Figure 6: Early/late pull force, peak EMG, and body sway:** plt_early_late_behavior.m
+- Figure 6: Early/late pull force, peak EMG, and body sway: **plt_early_late_behavior.m**
 
-**- Figure 7-10: EEG power spectra, ERSPs, and ERSP onsets:** plt_eeg_ersps.m (plots results for a single cluster)
+- Figure 7-10: EEG power spectra, ERSPs, and ERSP onsets: **plt_eeg_ersps.m** (plots results for a single cluster)
 
-**- Figure 11: Neck EMG power spectra and ERSPs:** plt_neck_emg_ersps.m
+- Figure 11: Neck EMG power spectra and ERSPs: **plt_neck_emg_ersps.m**
