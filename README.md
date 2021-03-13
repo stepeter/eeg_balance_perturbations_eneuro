@@ -1,6 +1,6 @@
 # Analysis of high-density EEG and concurrent EMG/EOG datastreams during balance perturbations
 
-This code was developed to replicates results from our [eNeuro publication](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6088363/) and is made to be used in conjunction with our public figshare dataset (link soon!). The hope is to make our public dataset easy to work with and to facilitate reproducibility of our work. If you do find this code and/or dataset useful, please cite our paper.
+This code was developed to replicates results from our [eNeuro publication](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6088363/) and is made to be used in conjunction with our public figshare dataset (link soon!). My hope is that this code helps make our public dataset easier to work with while facilitating reproducibility of our work. If you do find this code and/or dataset useful, please cite our paper.
 
 ```
 Peterson, S. M., & Ferris, D. P. (2018). Differentiation in theta and beta electrocortical
