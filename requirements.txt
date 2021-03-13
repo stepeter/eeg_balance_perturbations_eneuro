@@ -1,0 +1,11 @@
+Software and versions I used to test this code (other versions will likely work too):
+
+Matlab 2018b
+EEGLAB 13.5.4b
+
+
+EEGLAB plugins:
+
+clean_rawdata 0.31
+dipfit 2.3
+EMDLAB_Plugin
