@@ -8,12 +8,13 @@ activity between visual and physical perturbations to walking and standing balan
 ENeuro, 5(4). https://doi.org/10.1523/ENEURO.0207-18.2018
 ```
 
-![Summary of source-localized EEG findings during 2 sensorimotor balance perturbations](doc/balance_perturb_eeg.png)
-
-
 ## Dataset overview
 
 Our dataset includes synchronized 128-channel high-density electroencephalography (EEG), 2 neck electromyography (EMG) channels, 8 lower leg EMG channels, 3 EOG channels, and 2 load cell recordings of mediolateral pull perturbations. The data was collected for 30 healthy young adult participants (15 males, 15 females). Each participant was exposed to either visual field rotations or mediolateral pull perturbations while either standing or walking, resulting in 4 conditions of 10 minutes each.
+
+
+![Summary of source-localized EEG findings during 2 sensorimotor balance perturbations](doc/balance_perturb_eeg.png)
+
 
 ## Reproducing our eNeuro results
 
