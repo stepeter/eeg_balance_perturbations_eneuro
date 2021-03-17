@@ -8,6 +8,8 @@ activity between visual and physical perturbations to walking and standing balan
 ENeuro, 5(4). https://doi.org/10.1523/ENEURO.0207-18.2018
 ```
 
+[Summary of source-localized EEG findings during 2 sensorimotor balance perturbations](doc/balance_perturb_eeg.png)
+
 
 ## Dataset overview
 
