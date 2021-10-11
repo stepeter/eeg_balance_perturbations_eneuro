@@ -1,6 +1,6 @@
 # Analysis of high-density EEG and concurrent EMG/EOG datastreams during balance perturbations
 
-This code was developed to replicate results from our [eNeuro publication](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6088363/) when used in conjunction with our public [figshare dataset](https://figshare.com/projects/High-density_EEG_and_concurrent_EMG_EOG_and_body_position_during_sensorimotor_balance_perturbations/99815). My hope is that this code helps make our public dataset easier to work with while facilitating reproducibility of our work. If you do find this code and/or dataset useful, please cite our paper.
+This code was developed to replicate results from our [eNeuro publication](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6088363/) when used in conjunction with our public [OpenNeuro dataset](https://openneuro.org/datasets/ds003739/). If you find this code and/or dataset useful, please cite our paper.
 
 ```
 Peterson, S. M., & Ferris, D. P. (2018). Differentiation in theta and beta electrocortical
@@ -18,13 +18,15 @@ Our dataset includes synchronized 128-channel high-density electroencephalograph
 
 ## Reproducing our eNeuro results
 
-The code included in the *plot_fxns* folder will recreate Figs 2-11 of our eNeuro results, including the event-related spectral perturbation (ERSP) plots. Below are the specific scripts used to replicate the results of each figure in the paper. Each script will recreate a figure from the paper directly from the figshare dataset without needing to save intermediate files (unless *eeg_denoise.m* is used; see the second caveat below).
+The code included in the *plot_fxns* folder will recreate Figs 2-11 of our eNeuro results, including the event-related spectral perturbation (ERSP) plots. Below are the specific scripts used to replicate the results of each figure in the paper. Each script will recreate a figure from the paper directly from the OpenNeuro dataset without needing to save intermediate files (unless *eeg_denoise.m* is used; see the second caveat below).
 
 ### Caveats
 
-While the scripts below do replicate most of the results from the paper, there are two important differences between the original analysis and the one presented here. First, the non-EEG recordings have been synchronized directly to the EEG data for this analysis. This syncing procedure relied on a 2 Hz square wave signal and does not include non-EEG recordings outside of the first/last sync signal. This means that no EMG/body position data is available before/after the first/last sync signal of each condition. In contrast, the original analysis involved syncing the events separately to each datastream, which resulted in a more tedious analysis but included non-EEG data for all events, even those occurring before the sync signal start. All of this is to say that their are some differences at the beginning/end of each condition for the non-EMG data, which explains why Figure 6 in particular looks slightly different from its counterpart in our original paper.
+While the scripts below do replicate most of the results from the paper, there are two important differences between the original analysis and the one presented here.
 
-The second important difference is that the EEG data in our figshare dataset has not been processed to remove muscle contamination via ASR and our CCA-EEMD approaches. Also, noisy channels have not been removed. The scripts to replicate our original EEG results still show reasonable similarities, but would align better if our signal denoising workflow was used. This denoising procedure can be implemented by running *eeg_denoise.m* in the *denoise_eeg* directory.
+1) The non-EEG recordings have been synchronized directly to the EEG data for this public dataset. This syncing procedure uses a 2 Hz square wave signal and does not include non-EEG recordings, such as EMG and body position, outside of the first/last sync signal. In contrast, our original analysis involved syncing the events separately to each datastream, which was more tedious but included non-EEG data for all events, even those occurring before the sync signal start. Basically, there are some differences at the beginning/end of each condition for the non-EMG data, which is why the code to replicate Figure 6 looks slightly different from its counterpart in our original paper.
+
+2) The EEG data in our OpenNeuro dataset has not been processed to remove noise from neck muscle activity. Also, noisy channels have not been removed. The scripts to replicate our original EEG results still show reasonable similarities, but would align better if our signal denoising workflow was used. This denoising procedure can be implemented by running *eeg_denoise.m* in the *denoise_eeg* directory.
 
 ### Specific scripts for replicating eNeuro figures
 
