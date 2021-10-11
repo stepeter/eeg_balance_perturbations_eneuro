@@ -1,6 +1,7 @@
 %% EMG event-related activity plot (eNeuro Fig. 5)
 % Start eeglab
-eeglab_pth = '/Users/stepeter/Documents/BruntonLab/eeglab13_5_4b/';
+eeglab_pth = '.../eeglab13_5_4b/'; % EEGLAB directory
+root_pth = 'BIDS/'; % top-level data directory
 if ~exist('ALLCOM')
     PLTFUNCS.start_eeglab(eeglab_pth)
 end
@@ -8,15 +9,26 @@ end
 % Set parameters
 num_conds = 4; epochTimes=[-.5 1.5]; 
 hi_cutoff = 20; fs =256; % Hz
-eeg_files = dir('data_release_final/*.set');
-emg_marks = {'LTA','LSOL','LMG','LPL','RTA','RSOL','RMG','RPL'};
+eeg_files = dir([root_pth '*/*/*/sub*_ses-01_task*.set']);
+emg_marks = {'L_leg_emg_tibialis_anterior','L_leg_emg_soleus',...
+             'L_leg_emg_medial_gastrocnemius','L_leg_emg_peroneus_longus',...
+             'R_leg_emg_tibialis_anterior','R_leg_emg_soleus',...
+             'R_leg_emg_medial_gastrocnemius','R_leg_emg_peroneus_longus'};
 
 % Compute marker SD
-n_markers = length(emg_marks); n_subjs = length(eeg_files);
+n_markers = length(emg_marks);
+n_subjs = length(eeg_files); clear eeg_files;
 ev_traces = zeros(n_markers,n_subjs,num_conds,fs*(sum(abs(epochTimes))));
 evs = {'pull_Stn','pull_Wlk','M_on_SVZ','M_on_WVZ'};
 for i=1:n_subjs
-    EEG = pop_loadset('filename', eeg_files(i).name, 'filepath','data_release_final/');
+    eeg_files = dir([root_pth 'sub-' num2str(i,'%03.f') '/*/*/sub-' ...
+                     num2str(i,'%03.f') '*_ses*_task*.set']);
+    
+    for j=1:length(eeg_files)
+        EEG_all(j) = pop_loadset('filename', eeg_files(j).name,...
+                                 'filepath',eeg_files(j).folder);
+    end
+    EEG = pop_mergeset(EEG_all, 1:length(EEG_all));
     EEG = EEGFUNCS.rem_ev_cwlabels(EEG);
     EEG = EEGFUNCS.rem_ev_cwlabels_pulls(EEG);
     
@@ -62,4 +74,5 @@ for i=1:size(ev_traces,1)
 end
 
 % Plot EMG traces
-PLTFUNCS.plot_emg_evs(ev_traces_norm,EEG_tmp,emg_marks,n_subjs)
+emg_marks_plt = {'LTA','LSOL','LMG','LPL','RTA','RSOL','RMG','RPL'};
+PLTFUNCS.plot_emg_evs(ev_traces_norm,EEG_tmp,emg_marks_plt,n_subjs)

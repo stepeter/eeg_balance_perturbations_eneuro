@@ -1,27 +1,38 @@
 %% Early/late behavior plots (eNeuro Fig. 6)
 % Start eeglab
-eeglab_pth = '/Users/stepeter/Documents/BruntonLab/eeglab13_5_4b/';
+eeglab_pth = '.../eeglab13_5_4b/'; % EEGLAB directory
+root_pth = 'BIDS/'; % top-level data directory
 if ~exist('ALLCOM')
     PLTFUNCS.start_eeglab(eeglab_pth)
 end
 
 % Set parameters
 t_lims_ave = [0.2 0.5]*1000;
-emg_marks = {'LTA','LSOL','LMG','LPL','RTA','RSOL','RMG','RPL'};
-lcell_marks = {'LoadCell_l','LoadCell_r'};
+emg_marks = {'L_leg_emg_tibialis_anterior','L_leg_emg_soleus',...
+             'L_leg_emg_medial_gastrocnemius','L_leg_emg_peroneus_longus',...
+             'R_leg_emg_tibialis_anterior','R_leg_emg_soleus',...
+             'R_leg_emg_medial_gastrocnemius','R_leg_emg_peroneus_longus'};
+lcell_marks = {'L_load_cell','R_load_cell'};
 evs = {'pull_Stn','pull_Wlk','M_on_SVZ','M_on_WVZ'};
 evs_lcell = {{'L_pull_Stn','R_pull_Stn'},{'L_pull_Wlk','R_pull_Wlk'}};
 num_conds = 4;
-eeg_files = dir('data_release_final/*.set');
+eeg_files = dir([root_pth '*/*/*/sub*_ses-01_task*.set']);
 load('baseEMGPeakVals.mat');
-n_sbjs = length(eeg_files);
+n_sbjs = length(eeg_files); clear eeg_files;
 epochTimes=[-.5 1.5];
 hi_cutoff = 20; % Hz
 
 % Compute behavioral measures
 all_vals = zeros(4,2,n_sbjs,length(evs)); % plots x early/late x sbjs x condition
 for i=1:n_sbjs
-    EEG = pop_loadset('filename', eeg_files(i).name, 'filepath','data_release_final/');
+    eeg_files = dir([root_pth 'sub-' num2str(i,'%03.f') '/*/*/sub-' ...
+                     num2str(i,'%03.f') '*_ses*_task*.set']);
+    
+    for j=1:length(eeg_files)
+        EEG_all(j) = pop_loadset('filename', eeg_files(j).name,...
+                                 'filepath',eeg_files(j).folder);
+    end
+    EEG = pop_mergeset(EEG_all, 1:length(EEG_all));
     EEG = EEGFUNCS.rem_ev_cwlabels(EEG);
     EEG = EEGFUNCS.rem_ev_cwlabels_pulls(EEG);
     
@@ -31,8 +42,8 @@ for i=1:n_sbjs
     
     % Find SACR and HEAD electrodes
     marker_inds = [];
-    marker_inds(1) = EEGFUNCS.find_chan_ind(EEG, 'SACRx');
-    marker_inds(2) = EEGFUNCS.find_chan_ind(EEG, 'HEADx');
+    marker_inds(1) = EEGFUNCS.find_chan_ind(EEG, 'Mocap_sacrum_mediolateral');
+    marker_inds(2) = EEGFUNCS.find_chan_ind(EEG, 'Mocap_head_mediolateral');
     
     % Find EMG electrodes
     emg_inds = [];

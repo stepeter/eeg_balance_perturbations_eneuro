@@ -190,13 +190,12 @@ classdef EEGFUNCS
             end
         end
         
-        function [EEG, comp_ind] = apply_ica_to_eeg(EEG, ICA_STRUCT, comp,...
-                                                    icachansind)
+        function [EEG, comp_ind] = apply_ica_to_eeg(EEG, comp, icachansind)
             % Apply weights from ICA_STRUCT to the EEG dataset
-            good_comps = ICA_STRUCT.good_comps.brain;
+            good_comps = EEG.etc.good_comps;
             comp_ind = good_comps(comp);
-            EEG.icaweights = ICA_STRUCT.weights;
-            EEG.icasphere = ICA_STRUCT.sphere;
+            EEG.icaweights = EEG.etc.icaweights;
+            EEG.icasphere = EEG.etc.icasphere;
             EEG.icachansind = icachansind;
             
             % Compute ICA activations

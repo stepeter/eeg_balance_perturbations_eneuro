@@ -1,6 +1,7 @@
 %% Marker event-related activity plot (eNeuro Fig. 3)
 % Start eeglab
-eeglab_pth = '/Users/stepeter/Documents/BruntonLab/eeglab13_5_4b/';
+eeglab_pth = '.../eeglab13_5_4b/'; % EEGLAB directory
+root_pth = 'BIDS/'; % top-level data directory
 if ~exist('ALLCOM')
     PLTFUNCS.start_eeglab(eeglab_pth)
 end
@@ -8,14 +9,21 @@ end
 % Set parameters
 num_conds = 4; n_markers = 2; lo_cutoff = 6;
 epochTimes=[-.5 1.5]; fs =256; % Hz
-eeg_files = dir('data_release_final/*.set');
-n_subjs = length(eeg_files);
+eeg_files = dir([root_pth '*/*/*/sub*_ses-01_task*.set']);
+n_subjs = length(eeg_files); clear eeg_files;
 
 % Compute marker SD
 ev_traces = zeros(n_markers,n_subjs,num_conds,fs*(sum(abs(epochTimes))));
 evs = {'pull_Stn','pull_Wlk','M_on_SVZ','M_on_WVZ'};
 for i=1:n_subjs
-    EEG = pop_loadset('filename', eeg_files(i).name, 'filepath','data_release_final/');
+    eeg_files = dir([root_pth 'sub-' num2str(i,'%03.f') '/*/*/sub-' ...
+                     num2str(i,'%03.f') '*_ses*_task*.set']);
+    
+    for j=1:length(eeg_files)
+        EEG_all(j) = pop_loadset('filename', eeg_files(j).name,...
+                                 'filepath',eeg_files(j).folder);
+    end
+    EEG = pop_mergeset(EEG_all, 1:length(EEG_all));
     EEG = EEGFUNCS.rem_ev_cwlabels(EEG);
     EEG = EEGFUNCS.rem_ev_cwlabels_pulls(EEG);
     
@@ -24,8 +32,8 @@ for i=1:n_subjs
     
     % Find SACR and HEAD electrodes
     marker_inds = [];
-    marker_inds(1) = EEGFUNCS.find_chan_ind(EEG, 'SACRx');
-    marker_inds(2) = EEGFUNCS.find_chan_ind(EEG, 'HEADx');
+    marker_inds(1) = EEGFUNCS.find_chan_ind(EEG, 'Mocap_sacrum_mediolateral');
+    marker_inds(2) = EEGFUNCS.find_chan_ind(EEG, 'Mocap_head_mediolateral');
     
     % 6 Hz low-pass filter mocap data
     EEG = EEGFUNCS.filt_data(EEG, marker_inds, lo_cutoff, 'low');

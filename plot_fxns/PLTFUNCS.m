@@ -12,10 +12,11 @@ classdef PLTFUNCS
             % Load ICA_struct files
             dipfits = {};
             for i=1:length(ica_struct_files)
-                load(['data_release_ICA_structs/' ica_struct_files(i).name]);
-                good_comps = ICA_STRUCT.good_comps.brain;
-                ICA_STRUCT.dipfit.model = ICA_STRUCT.dipfit.model(good_comps);
-                dipfits{i} = ICA_STRUCT.dipfit;
+                EEG = pop_loadset('filename', ica_struct_files(i).name,...
+                      'filepath',ica_struct_files(i).folder);
+                good_comps = EEG.etc.good_comps;
+                EEG.etc.dipfit.model = EEG.etc.dipfit.model(good_comps);
+                dipfits{i} = EEG.etc.dipfit;
             end
         end
         

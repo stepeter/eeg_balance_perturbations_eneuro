@@ -1,7 +1,8 @@
 %% Plot EEG spectra, ERSP's, and ERSP timing (eNeuro Figs. 7-10)
 tic;
 % Start eeglab
-eeglab_pth = '/Users/stepeter/Documents/BruntonLab/eeglab13_5_4b/';
+eeglab_pth = '.../eeglab13_5_4b/'; % EEGLAB directory
+root_pth = 'BIDS/'; % top-level data directory
 if ~exist('ALLCOM')
     PLTFUNCS.start_eeglab(eeglab_pth)
 end
@@ -9,7 +10,6 @@ end
 % Set parameters
 cluster2plt = 'Supplementary Motor Area'; % select cluster to plot ERSPs from
 
-eeg_files = dir('data_release_final/*.set');
 evs = {'M_on_SVZ','M_on_WVZ','pull_Stn','pull_Wlk'};
 ev_labels = {'Stand Rotate','Walk Rotate','Stand Pull','Walk Pull'};
 ep_add_time = [-1 1]*0.6; % extra epoch times that will be cut off during ERSP computation
@@ -17,10 +17,6 @@ epochTimes=[-.5 1.5]+ep_add_time;
 alpha = 0.05; icachansind = 1:128;
 cluster_labels = {'Left Occipital','Right Occipital','Left Sensorimotor','Anterior Cingulate',...
                   'Right Sensorimotor','Posterior Parietal','Supplementary Motor Area','Anterior Parietal'};
-
-% Identify EEG and ICA_struct files
-ica_struct_files = dir('data_release_ICA_structs/*ICA_struct.mat');
-eeg_files = dir('data_release_final/*.set');
 
 % Load cluster info
 load('cluster_data.mat');        
@@ -34,18 +30,22 @@ for i=1:n_comps
     comp = cluster(cluster_ind).comps(i);
     
     % Load EEG set
-    EEG = pop_loadset('filename', eeg_files(cls_set_i).name,...
-                      'filepath','data_release_final/');
+    eeg_files = dir([root_pth 'sub-' num2str(cls_set_i,'%03.f') '/*/*/sub-' ...
+                     num2str(cls_set_i,'%03.f') '*_ses*_task*.set']);
+    
+    for j=1:length(eeg_files)
+        EEG_all(j) = pop_loadset('filename', eeg_files(j).name,...
+                                 'filepath',eeg_files(j).folder);
+    end
+    EEG = pop_mergeset(EEG_all, 1:length(EEG_all));
     EEG = EEGFUNCS.rem_ev_cwlabels(EEG);
     EEG = EEGFUNCS.rem_ev_cwlabels_pulls(EEG);
     
     % Retain only EEG electrodes
     EEG = pop_select(EEG,'channel',icachansind);
     
-    % Load ICA_STRUCT and project components from ICA
-    load(['data_release_ICA_structs/' ica_struct_files(cls_set_i).name]);
-    [EEG, comp_ind] = EEGFUNCS.apply_ica_to_eeg(EEG, ICA_STRUCT, comp,...
-                                                icachansind);
+    % Project components from ICA
+    [EEG, comp_ind] = EEGFUNCS.apply_ica_to_eeg(EEG, comp, icachansind);
     
     for k=1:length(evs)
         % Epoch data

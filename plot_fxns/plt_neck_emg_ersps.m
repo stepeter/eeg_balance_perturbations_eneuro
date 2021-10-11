@@ -1,17 +1,18 @@
 %% Neck EMG ERSP's (eNeuro Fig. 11)
 tic;
 % Start eeglab
-eeglab_pth = '/Users/stepeter/Documents/BruntonLab/eeglab13_5_4b/';
+eeglab_pth = '.../eeglab13_5_4b/'; % EEGLAB directory
+root_pth = 'BIDS/'; % top-level data directory
 if ~exist('ALLCOM')
     PLTFUNCS.start_eeglab(eeglab_pth)
 end
 
 % Set parameters
-eeg_files = dir('data_release_final/*.set');
-n_parts = length(eeg_files);
+eeg_files = dir([root_pth '*/*/*/sub*_ses-01_task*.set']);
+n_parts = length(eeg_files); clear eeg_files;
 evs = {'M_on_SVZ','M_on_WVZ','pull_Stn','pull_Wlk'};
 ev_labels = {'Stand Rotate','Walk Rotate','Stand Pull','Walk Pull'};
-ch_labels = {'Left Neck','Right Neck'};
+ch_labels = {'L_neck_emg','R_neck_emg'};
 ep_add_time = [-1 1]*0.6; % extra epoch times that will be cut off during ERSP computation
 epochTimes=[-.5 1.5]+ep_add_time;
 alpha = 0.05;
@@ -19,8 +20,15 @@ alpha = 0.05;
 % Compute time-frequency information
 erps_all = zeros(n_parts,length(evs),2,100,200); % sbj, event, chan, freq, time
 for i=1:n_parts
-    % Load EEG file
-    EEG = pop_loadset('filename', eeg_files(i).name, 'filepath','data_release_final/');
+    % Load EEG files
+    eeg_files = dir([root_pth 'sub-' num2str(i,'%03.f') '/*/*/sub-' ...
+                     num2str(i,'%03.f') '*_ses*_task*.set']);
+    
+    for j=1:length(eeg_files)
+        EEG_all(j) = pop_loadset('filename', eeg_files(j).name,...
+                                 'filepath',eeg_files(j).folder);
+    end
+    EEG = pop_mergeset(EEG_all, 1:length(EEG_all));
     EEG = EEGFUNCS.rem_ev_cwlabels(EEG);
     EEG = EEGFUNCS.rem_ev_cwlabels_pulls(EEG);
     
