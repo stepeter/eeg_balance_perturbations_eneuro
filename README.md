@@ -1,6 +1,12 @@
 # Analysis of high-density EEG and concurrent EMG/EOG datastreams during balance perturbations
 
-This code was developed to replicate results from our [eNeuro publication](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6088363/) when used in conjunction with our public [OpenNeuro dataset](https://openneuro.org/datasets/ds003739/). If you find this code and/or dataset useful, please cite our paper.
+This code was developed to replicate results from our [eNeuro publication](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6088363/) when used in conjunction with our public [OpenNeuro dataset](https://openneuro.org/datasets/ds003739/). Our dataset is described further in our [Data-in-Brief publication](https://doi.org/10.1016/j.dib.2021.107635). If you find this code and/or dataset useful, please cite our papers.
+
+```
+Peterson, S. M., & Ferris, D. P. (2021). Human electrocortical, electromyographical,
+ocular, and kinematic data during perturbed walking and standing.
+Data Brief, 39. https://doi.org/10.1016/j.dib.2021.107635
+```
 
 ```
 Peterson, S. M., & Ferris, D. P. (2018). Differentiation in theta and beta electrocortical
